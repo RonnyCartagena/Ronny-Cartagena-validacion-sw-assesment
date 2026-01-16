@@ -10,8 +10,12 @@ import java.util.List;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
+    private final EmployeeRepository employeeRepository;
+
     @Autowired
-    EmployeeRepository employeeRepository;
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
 
     @Override
     public Employee saveEmployee(Employee employee) {
@@ -23,7 +27,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.save(employee);
     }
 
-
     @Override
     public List<Employee> getAllEmployees() {
         return (List<Employee>) employeeRepository.findAll();
@@ -31,7 +34,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee getEmployee(Long employeeId) {
-        return employeeRepository.findById(employeeId).get();
+        return employeeRepository.findById(employeeId).orElse(null);
     }
 
     @Override
